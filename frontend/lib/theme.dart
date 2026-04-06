@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._(); // Prevent instantiation
 
-  /// Primary brand green – dùng cho AppBar, nút chính, v.v.
+  /// Primary brand green – AppBar, nút chính, tab active
   static const Color primary       = Color(0xFF0B3D2E);
 
   /// Light grey – border, divider, nền phụ
@@ -15,40 +15,43 @@ class AppColors {
   /// White 50 % opacity – overlay, hint text
   static const Color whiteOverlay  = Color(0x80FFFFFF);
 
-  /// Medium grey – body text phụ, caption
+  /// Medium grey – body text phụ, caption, label
   static const Color greyMedium    = Color(0xFF616161);
 
   /// Pure white – nền chính, text trên nền tối
   static const Color white         = Color(0xFFFFFFFF);
 
-  /// Error / destructive red
-  static const Color error         = Color(0xFFC62828);
+  /// Destructive red – nút xoá, lỗi, "Quay lại", "Lịch sử đơn vị"
+  static const Color red           = Color(0xFFC62828);
 
-  /// Warning / accent yellow
-  static const Color warning       = Color(0xFFFBC02D);
+  /// Warning / accent yellow – badge, "Chuyển sinh hoạt"
+  static const Color yellow        = Color(0xFFFBC02D);
+
+  /// Near-black – tiêu đề chính, tên người dùng (trích từ Figma)
+  static const Color black         = Color(0xFF212121);
 }
 
 // ──────────────────────────────────────────────
-// Text Theme
+// Text Theme  (khớp Figma: title = đen, body = grey)
 // ──────────────────────────────────────────────
 const TextTheme _appTextTheme = TextTheme(
-  // ── Title ──
+  // ── Title ── (Figma: chữ đen đậm)
   titleLarge: TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.w700,
-    color: AppColors.primary,
+    color: AppColors.black,
     letterSpacing: 0.15,
   ),
   titleMedium: TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w600,
-    color: AppColors.primary,
+    color: AppColors.black,
     letterSpacing: 0.1,
   ),
   titleSmall: TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w600,
-    color: AppColors.primary,
+    color: AppColors.black,
   ),
 
   // ── Body ──
@@ -101,16 +104,16 @@ final ThemeData appTheme = ThemeData(
     seedColor: AppColors.primary,
     primary: AppColors.primary,
     onPrimary: AppColors.white,
-    error: AppColors.error,
+    error: AppColors.red,
     onError: AppColors.white,
     surface: AppColors.white,
-    onSurface: AppColors.greyMedium,
+    onSurface: AppColors.black,
   ),
 
   // ── Text ──
   textTheme: _appTextTheme,
 
-  // ── AppBar ──
+  // ── AppBar ── (Figma: nền xanh đậm, chữ trắng, căn giữa)
   appBarTheme: const AppBarTheme(
     backgroundColor: AppColors.primary,
     foregroundColor: AppColors.white,
@@ -123,7 +126,7 @@ final ThemeData appTheme = ThemeData(
     ),
   ),
 
-  // ── ElevatedButton ──
+  // ── ElevatedButton ── (Figma: bo góc viên thuốc ~25)
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: AppColors.primary,
@@ -133,13 +136,13 @@ final ThemeData appTheme = ThemeData(
         fontWeight: FontWeight.w600,
       ),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(25),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
     ),
   ),
 
-  // ── OutlinedButton ──
+  // ── OutlinedButton ── (Figma: viền primary, bo tròn)
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       foregroundColor: AppColors.primary,
@@ -149,32 +152,36 @@ final ThemeData appTheme = ThemeData(
         fontWeight: FontWeight.w600,
       ),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(25),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
     ),
   ),
 
-  // ── InputDecoration ──
+  // ── InputDecoration ── (Figma: bo 10, viền nhẹ)
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
     fillColor: AppColors.white,
     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(10),
       borderSide: const BorderSide(color: AppColors.greyLight),
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(10),
       borderSide: const BorderSide(color: AppColors.greyLight),
     ),
     focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(color: AppColors.primary, width: 2),
+      borderRadius: BorderRadius.circular(10),
+      borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
     ),
     errorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(color: AppColors.error),
+      borderRadius: BorderRadius.circular(10),
+      borderSide: const BorderSide(color: AppColors.red),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: const BorderSide(color: AppColors.red, width: 1.5),
     ),
     hintStyle: const TextStyle(color: AppColors.greyMedium, fontSize: 14),
   ),
