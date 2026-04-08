@@ -1,5 +1,10 @@
 # Project-level configuration.
 cmake_minimum_required(VERSION 3.14)
+project(app_cand LANGUAGES CXX)
+
+# The name of the executable created for the application. Change this to change
+# the on-disk name of your application.
+set(BINARY_NAME "app_cand")
 project(cand_app LANGUAGES CXX)
 
 # The name of the executable created for the application. Change this to change
