@@ -1,6 +1,8 @@
 {
     "name": "app_cand",
     "short_name": "app_cand",
+    "name": "cand_app",
+    "short_name": "cand_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
