@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screens/main_shell.dart';
 import 'theme.dart';
 
 void main() {
@@ -11,6 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'App CAND',
+      debugShowCheckedModeBanner: false,
+      home: const MainShell(), //không cần truyền child
+    );
+  }
+}
       title: 'APP-CAND',
       debugShowCheckedModeBanner: false,
       theme: appTheme,
