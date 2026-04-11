@@ -1,5 +1,7 @@
 package com.cand.backend.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +18,12 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false)
     private String name;
+    private String email;
+    private String password;
+
+    private String otp;
+    private LocalDateTime otpExpiryTime;
+    private boolean isTwoFactorEnabled = false;
 }
