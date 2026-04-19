@@ -16,9 +16,18 @@ class _MainShellState extends State<MainShell> {
 
   // Thêm Key cho mỗi màn hình để AnimatedSwitcher hoạt động chính xác
   final List<Widget> _screens = const [
-    Center(key: Key('home'), child: Text('Trang chủ - nội dung sẽ được thay sau')),
-    Center(key: Key('profile'), child: Text('Hồ sơ - nội dung sẽ được thay sau')),
-    Center(key: Key('notifications'), child: Text('Thông báo - nội dung sẽ được thay sau')),
+    Center(
+      key: Key('home'),
+      child: Text('Trang chủ - nội dung sẽ được thay sau'),
+    ),
+    Center(
+      key: Key('profile'),
+      child: Text('Hồ sơ - nội dung sẽ được thay sau'),
+    ),
+    Center(
+      key: Key('notifications'),
+      child: Text('Thông báo - nội dung sẽ được thay sau'),
+    ),
   ];
 
   void _onTabTapped(int index) {
@@ -47,9 +56,7 @@ class _MainShellState extends State<MainShell> {
           ),
         ],
       ),
-      body: SafeArea(
-        child: _buildAnimatedBody(),
-      ),
+      body: SafeArea(child: _buildAnimatedBody()),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           splashFactory: InkRipple.splashFactory,

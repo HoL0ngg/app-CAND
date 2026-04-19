@@ -149,7 +149,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
         builder: (_, value, child) {
           if (value.text.isEmpty) return const SizedBox.shrink();
           return IconButton(
-            icon: const Icon(Icons.close, color: AppColors.greyMedium, size: 20),
+            icon: const Icon(
+              Icons.close,
+              color: AppColors.greyMedium,
+              size: 20,
+            ),
             onPressed: () {
               widget.controller!.clear();
               widget.onChanged?.call('');
@@ -178,9 +182,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
           Text(
             widget.label!,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: AppColors.greyMedium,
-                  fontWeight: FontWeight.w400,
-                ),
+              color: AppColors.greyMedium,
+              fontWeight: FontWeight.w400,
+            ),
           ),
           const SizedBox(height: 6),
         ],
@@ -202,9 +206,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
           maxLength: widget.maxLength,
           enabled: widget.enabled,
           autofocus: widget.autofocus,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.black,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: AppColors.black),
           decoration: InputDecoration(
             hintText: widget.hintText,
             helperText: widget.errorText == null ? widget.helperText : null,
@@ -223,7 +227,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: br,
-              borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+              borderSide: const BorderSide(
+                color: AppColors.primary,
+                width: 1.5,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: br,

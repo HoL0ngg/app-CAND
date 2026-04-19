@@ -111,20 +111,13 @@ class CustomButton extends StatelessWidget {
 
     final textWidget = Text(
       label,
-      style: TextStyle(
-        fontSize: fontSize ?? 16,
-        fontWeight: FontWeight.w600,
-      ),
+      style: TextStyle(fontSize: fontSize ?? 16, fontWeight: FontWeight.w600),
     );
 
     if (icon != null) {
       return Row(
         mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 20),
-          const SizedBox(width: 8),
-          textWidget,
-        ],
+        children: [Icon(icon, size: 20), const SizedBox(width: 8), textWidget],
       );
     }
     return textWidget;
