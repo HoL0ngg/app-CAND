@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MainShell extends StatefulWidget {
-  const MainShell({super.key});
+  const MainShell({super.key, required this.onLogout});
+
+  final VoidCallback onLogout;
 
   @override
   State<MainShell> createState() => _MainShellState();
@@ -35,6 +37,16 @@ class _MainShellState extends State<MainShell> {
 
     // Tối ưu: chỉ animation cho body thay vì toàn bộ Scaffold
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('App CAND'),
+        actions: [
+          IconButton(
+            onPressed: widget.onLogout,
+            tooltip: 'Dang xuat',
+            icon: const Icon(Icons.logout),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: _buildAnimatedBody(),
       ),
