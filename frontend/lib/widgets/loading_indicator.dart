@@ -62,8 +62,8 @@ class LoadingIndicator extends StatelessWidget {
           Text(
             message!,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: _overlay ? AppColors.white : AppColors.greyMedium,
-                ),
+              color: _overlay ? AppColors.white : AppColors.greyMedium,
+            ),
             textAlign: TextAlign.center,
           ),
         ],

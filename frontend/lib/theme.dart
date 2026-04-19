@@ -7,28 +7,28 @@ class AppColors {
   AppColors._(); // Prevent instantiation
 
   /// Primary brand green – AppBar, nút chính, tab active
-  static const Color primary       = Color(0xFF0B3D2E);
+  static const Color primary = Color(0xFF0B3D2E);
 
   /// Light grey – border, divider, nền phụ
-  static const Color greyLight     = Color(0xFFE0E0E0);
+  static const Color greyLight = Color(0xFFE0E0E0);
 
   /// White 50 % opacity – overlay, hint text
-  static const Color whiteOverlay  = Color(0x80FFFFFF);
+  static const Color whiteOverlay = Color(0x80FFFFFF);
 
   /// Medium grey – body text phụ, caption, label
-  static const Color greyMedium    = Color(0xFF616161);
+  static const Color greyMedium = Color(0xFF616161);
 
   /// Pure white – nền chính, text trên nền tối
-  static const Color white         = Color(0xFFFFFFFF);
+  static const Color white = Color(0xFFFFFFFF);
 
   /// Destructive red – nút xoá, lỗi, "Quay lại", "Lịch sử đơn vị"
-  static const Color red           = Color(0xFFC62828);
+  static const Color red = Color(0xFFC62828);
 
   /// Warning / accent yellow – badge, "Chuyển sinh hoạt"
-  static const Color yellow        = Color(0xFFFBC02D);
+  static const Color yellow = Color(0xFFFBC02D);
 
   /// Near-black – tiêu đề chính, tên người dùng (trích từ Figma)
-  static const Color black         = Color(0xFF212121);
+  static const Color black = Color(0xFF212121);
 }
 
 // ──────────────────────────────────────────────
@@ -131,13 +131,8 @@ final ThemeData appTheme = ThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: AppColors.primary,
       foregroundColor: AppColors.white,
-      textStyle: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25),
-      ),
+      textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
     ),
   ),
@@ -147,13 +142,8 @@ final ThemeData appTheme = ThemeData(
     style: OutlinedButton.styleFrom(
       foregroundColor: AppColors.primary,
       side: const BorderSide(color: AppColors.primary),
-      textStyle: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25),
-      ),
+      textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
     ),
   ),

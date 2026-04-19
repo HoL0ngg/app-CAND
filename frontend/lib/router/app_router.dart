@@ -26,17 +26,13 @@ GoRouter buildAppRouter(AuthState authState) {
       GoRoute(
         path: '/login',
         builder: (context, state) {
-          return LoginScreen(
-            onLogin: authState.signIn,
-          );
+          return LoginScreen(onLogin: authState.signIn);
         },
       ),
       GoRoute(
         path: '/app',
         builder: (context, state) {
-          return MainShell(
-            onLogout: authState.signOut,
-          );
+          return MainShell(onLogout: authState.signOut);
         },
       ),
     ],

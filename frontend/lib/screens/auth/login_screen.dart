@@ -26,16 +26,12 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   const TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Tai khoan',
-                    ),
+                    decoration: InputDecoration(labelText: 'Tai khoan'),
                   ),
                   const SizedBox(height: 12),
                   const TextField(
                     obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'Mat khau',
-                    ),
+                    decoration: InputDecoration(labelText: 'Mat khau'),
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
