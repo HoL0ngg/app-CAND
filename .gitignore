@@ -34,3 +34,6 @@ frontend/app.*.map.json
 frontend/android/app/debug
 frontend/android/app/profile
 frontend/android/app/release
+
+# Legacy folder (removed from repo)
+FE/
