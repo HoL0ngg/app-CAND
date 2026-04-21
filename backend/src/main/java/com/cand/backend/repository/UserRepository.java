@@ -12,4 +12,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // Kiểm tra xem email đã tồn tại hay chưa (dùng cho lúc đăng ký)
     Boolean existsByEmail(String email);
+
+    // CÁC HÀM BỔ SUNG CHO TSK-007 (HỒ SƠ ĐOÀN VIÊN)
+    Optional<User> findByStaffCode(String staffCode); 
+    
+    Boolean existsByStaffCode(String staffCode); 
+    
+    Boolean existsByIdentityNumber(String identityNumber); 
 }
