@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.cand.backend.model.User;
+import com.cand.backend.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     // Tìm kiếm người dùng bằng email để kiểm tra đăng nhập
