@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cand.backend.dto.request.LoginRequest;
 import com.cand.backend.dto.request.OtpRequest;
+import com.cand.backend.dto.request.RegisterRequest;
 import com.cand.backend.dto.response.JwtResponse;
 import com.cand.backend.entity.User;
 import com.cand.backend.service.AuthService;
@@ -28,6 +29,12 @@ public class AuthController {
         this.authService = authService;
         this.otpService = otpService;
         this.emailService = emailService;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
+        User user = authService.register(registerRequest);
+        return ResponseEntity.ok("Đăng ký thành công tài khoản: " + user.getEmail());
     }
 
     @PostMapping("/login")

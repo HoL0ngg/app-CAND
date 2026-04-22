@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.cand.backend.dto.request.RegisterRequest;
+import com.cand.backend.entity.Role;
 import com.cand.backend.exception.AuthException;
 import com.cand.backend.entity.User;
 import com.cand.backend.repository.UserRepository;
@@ -53,5 +55,20 @@ public class AuthServiceImpl implements AuthService {
         user.setOtpExpiryTime(null);
         userRepository.save(user);
         return Optional.of(jwtTokenProvider.generateToken(email));
+    }
+
+    @Override
+    public User register(RegisterRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new AuthException("Email đã tồn tại trong hệ thống");
+        }
+
+        User user = new User();
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(request.getRole() != null ? request.getRole() : Role.ROLE_DOAN_VIEN);
+
+        return userRepository.save(user);
     }
 }
