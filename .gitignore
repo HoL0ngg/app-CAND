@@ -44,3 +44,7 @@ docs-private/
 *.docx
 *.png
 *.md 
+
+# Backend target
+backend/target/
+backend/*.jar
