@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# backend
+backend/target/
+backend/*.jar

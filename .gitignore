@@ -42,3 +42,15 @@ docs-private/
 *.docx
 *.png
 *.md 
+
+# Ignore IDE
+.vscode/
+.idea/
+*.swp
+*.DS_Store
+
+# Ignore build folder
+node_modules/
+temp/
+frontend/android/build/
+**/build/
