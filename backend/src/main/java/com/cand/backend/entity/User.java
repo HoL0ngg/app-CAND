@@ -11,10 +11,14 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "users")
 @Data
+@Getter
+@Setter
 public class User {
 
     @Id
