@@ -5,12 +5,14 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.EnumType;
 import lombok.Data;
 
 @Entity
@@ -56,8 +58,8 @@ public class User {
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role_name")
     private Role role;
 
     // --- NGHIỆP VỤ QR & TRẠNG THÁI ---

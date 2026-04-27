@@ -32,7 +32,7 @@ public class UserProfileDto {
         dto.setQrSecretKey(user.getQrSecretKey());
         
         if (user.getUnit() != null) dto.setUnitName(user.getUnit().getUnitName());
-        if (user.getRole() != null) dto.setRoleName(user.getRole().getRoleName());
+        if (user.getRole() != null) dto.setRoleName(user.getRole().name());
         
         return dto;
     }
