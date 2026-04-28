@@ -10,5 +10,11 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByUsername(String username);
     Optional<User> findByEmail(String email);
-    boolean existsByEmail(String email);
+
+    // CÁC HÀM BỔ SUNG CHO TSK-007 (HỒ SƠ ĐOÀN VIÊN)
+    Optional<User> findByStaffCode(String staffCode); 
+    
+    Boolean existsByStaffCode(String staffCode); 
+    
+    Boolean existsByIdentityNumber(String identityNumber); 
 }
