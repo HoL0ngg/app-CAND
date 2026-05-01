@@ -49,6 +49,8 @@ public class AuthController {
     @PostMapping("/verify-otp")
     public ResponseEntity<?> verifyOtp(@RequestBody OtpRequest otpRequest) {
         Optional<String> token = authService.verifyOtp(otpRequest.getEmail(), otpRequest.getOtp());
+        System.out.println("OTP Request: " + otpRequest.getEmail() + " - " + otpRequest.getOtp());
+        System.out.println("Token generated: " + token.orElse("No token generated"));
         if (token.isPresent()) {
             return ResponseEntity.ok(new JwtResponse(token.get()));
         }

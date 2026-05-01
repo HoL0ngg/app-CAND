@@ -104,11 +104,11 @@ public class User {
     @Column(name = "xoa_luc")
     private LocalDateTime deletedAt;
 
-    // @Column(name = "otp")
-    // private String otp;
+    @Column(name = "otp")
+    private String otp;
 
-    // @Column(name = "otp_expiry_time")
-    // private LocalDateTime otpExpiryTime;
+    @Column(name = "otp_expiry_time")
+    private LocalDateTime otpExpiryTime;
 
     // @Column(name = "two_factor_enabled")
     // private boolean twoFactorEnabled = false;

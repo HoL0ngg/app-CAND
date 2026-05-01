@@ -14,6 +14,8 @@ import com.cand.backend.repository.UserRepository;
 import com.cand.backend.security.JwtTokenProvider;
 import com.cand.backend.service.AuthService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -31,6 +33,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public User authenticate(String email, String password) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new AuthException("Sai tài khoản hoặc mật khẩu"));
@@ -42,24 +45,32 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public Optional<String> verifyOtp(String email, String otp) {
-        // User user = userRepository.findByEmail(email).orElse(null);
-        // if (user == null || user.getOtp() == null || user.getOtpExpiryTime() == null)
-        // {
-        // return Optional.empty();
-        // }
-        // if (!user.getOtp().equals(otp) ||
-        // !user.getOtpExpiryTime().isAfter(LocalDateTime.now())) {
-        // return Optional.empty();
-        // }
+        if (email == null || otp == null) {
+            return Optional.empty();
+        }
 
-        // user.setOtp(null);
-        // user.setOtpExpiryTime(null);
-        // userRepository.save(user);
-        return Optional.of(jwtTokenProvider.generateToken(email));
+        String normalizedEmail = email.trim();
+        String normalizedOtp = otp.trim();
+
+        User user = userRepository.findByEmail(normalizedEmail).orElse(null);
+        if (user == null || user.getOtp() == null || user.getOtpExpiryTime() == null) {
+            return Optional.empty();
+        }
+        if (!user.getOtp().equals(normalizedOtp) ||
+                !user.getOtpExpiryTime().isAfter(LocalDateTime.now())) {
+            return Optional.empty();
+        }
+
+        user.setOtp(null);
+        user.setOtpExpiryTime(null);
+        userRepository.save(user);
+        return Optional.of(jwtTokenProvider.generateToken(user.getEmail()));
     }
 
     @Override
+    @Transactional
     public User register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new AuthException("Email đã tồn tại trong hệ thống");

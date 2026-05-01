@@ -9,6 +9,8 @@ import com.cand.backend.entity.User;
 import com.cand.backend.repository.UserRepository;
 import com.cand.backend.service.OtpService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class OtpServiceImpl implements OtpService {
 
@@ -27,6 +29,7 @@ public class OtpServiceImpl implements OtpService {
     }
 
     @Override
+    @Transactional
     public void saveOtp(User user, String otp) {
         user.setOtp(otp);
         user.setOtpExpiryTime(LocalDateTime.now().plusMinutes(OTP_EXPIRY_MINUTES));
