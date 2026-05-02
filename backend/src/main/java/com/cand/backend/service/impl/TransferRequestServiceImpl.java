@@ -32,10 +32,9 @@ public class TransferRequestServiceImpl implements TransferRequestService {
 
         @Override
         @Transactional
-        public TransferResponseDto submitRequest(TransferRequestDto requestDto) {
-                User user = userRepository.findById(requestDto.getUserId())
+        public TransferResponseDto submitRequest(TransferRequestDto requestDto, UUID userId) {
+                User user = userRepository.findById(userId)
                                 .orElseThrow(() -> new RuntimeException("Không tìm thấy đoàn viên"));
-
                 Unit toUnit = unitRepository.findById(requestDto.getToUnitId())
                                 .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn vị đích"));
 
@@ -120,8 +119,16 @@ public class TransferRequestServiceImpl implements TransferRequestService {
         }
 
         @Override
-        public List<TransferResponseDto> getAllRequests() {
-                return transferRepository.findAll()
+        public List<TransferResponseDto> getAllFromRequests(Long unitId) {
+                return transferRepository.findByFromUnitId(unitId)
+                                .stream()
+                                .map(this::mapToResponseDto)
+                                .collect(Collectors.toList());
+        }
+
+        @Override
+        public List<TransferResponseDto> getAllToRequests(Long unitId) {
+                return transferRepository.findByToUnitId(unitId)
                                 .stream()
                                 .map(this::mapToResponseDto)
                                 .collect(Collectors.toList());
