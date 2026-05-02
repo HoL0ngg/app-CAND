@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cand.backend.dto.PublishNotificationRequest;
 import com.cand.backend.entity.Notification;
 import com.cand.backend.entity.User;
 import com.cand.backend.security.CustomUserDetails;
@@ -28,16 +29,35 @@ public class NotificationController {
     @Autowired
     private UserService userService;
 
-    // API dành cho Cán bộ / Đoàn viên để phát hành thông báo cho đơn vị
+    /**
+     * API gửi thông báo với linh hoạt lựa chọn loại người nhận
+     * Client có thể chọn gửi cùng đơn vị hoặc gửi xuống cấp dưới
+     */
     @PostMapping("/publish")
-    public ResponseEntity<?> publishNotification(@RequestBody Notification notification) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String email = ((CustomUserDetails) principal).getUsername();
-        User user = userService.getUserByEmail(email);
-        notification.setSenderId(user.getId());
+    public ResponseEntity<?> publishNotification(@RequestBody PublishNotificationRequest request) {
+        try {
+            // Lấy thông tin người gửi từ security context
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String email = ((CustomUserDetails) principal).getUsername();
+            User sender = userService.getUserByEmail(email);
 
-        Notification newNotification = notificationService.publishNotification(notification);
-        return ResponseEntity.ok(newNotification);
+            // Tạo đối tượng notification từ request
+            Notification notification = new Notification();
+            notification.setTitle(request.getTitle());
+            notification.setContent(request.getContent());
+            notification.setPriority(request.getPriority());
+            notification.setSenderId(sender.getId());
+            notification.setRecipientUnitId(request.getRecipientUnitId());
+
+            // Gửi thông báo với loại người nhận được chỉ định
+            Notification newNotification = notificationService.publishNotificationWithRecipients(
+                    notification,
+                    request.getRecipientType());
+
+            return ResponseEntity.ok(newNotification);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body("Lỗi khi gửi thông báo: " + e.getMessage());
+        }
     }
 
     // API dành cho Đoàn viên để lấy hòm thư thông báo của mình
