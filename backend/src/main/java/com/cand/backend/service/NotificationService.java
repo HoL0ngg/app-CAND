@@ -72,7 +72,7 @@ public class NotificationService {
      * Lấy danh sách hòm thư cho Cán bộ / Đoàn viên
      */
     public List<Notification_User> getInbox(UUID userId) {
-        return notificationUserRepository.findByUserIdAndIsReadFalseOrderByCreatedAtDesc(userId);
+        return notificationUserRepository.findByUserIdOrderByCreatedAtDesc(userId);
 
     }
 }

@@ -157,7 +157,6 @@ CREATE TABLE Thong_bao_nguoi_dung (
     nguoi_dung_id   UUID        NOT NULL REFERENCES Nguoi_dung(id),
     da_doc          BOOLEAN     NOT NULL DEFAULT FALSE,
     doc_luc         TIMESTAMP,
-    tao_luc         TIMESTAMP   NOT NULL DEFAULT NOW(),
     UNIQUE (thong_bao_id, nguoi_dung_id)
 );
 
@@ -310,7 +309,7 @@ INSERT INTO Yeu_cau_chuyen_sinh_hoat (
 ) VALUES
 -- APPROVED: Lan chuyển CSHS → CSGT
 (1, 'a1b2c3d4-0005-0005-0005-000000000005', 2, 3,
- 'APPROVED',
+ 'SOURCE_APPROVED',
  'Gia đình chuyển công tác về khu vực phụ trách của Chi đoàn CSGT, đề nghị chuyển sinh hoạt để thuận tiện công tác.',
  'a1b2c3d4-0002-0002-0002-000000000002',
  'a1b2c3d4-0003-0003-0003-000000000003',

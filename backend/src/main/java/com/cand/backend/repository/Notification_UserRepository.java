@@ -10,7 +10,7 @@ import com.cand.backend.entity.Notification_User;
 
 @Repository
 public interface Notification_UserRepository extends JpaRepository<Notification_User, Long> {
-    List<Notification_User> findByUserIdAndIsReadFalseOrderByCreatedAtDesc(UUID userId);
+    List<Notification_User> findByUserIdOrderByCreatedAtDesc(UUID userId);
 
     Notification_User findByUserIdAndNotificationId(UUID userId, Long notificationId);
 }

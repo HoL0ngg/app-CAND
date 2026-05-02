@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cand.backend.entity.Notification;
 import com.cand.backend.entity.User;
+import com.cand.backend.security.CustomUserDetails;
 import com.cand.backend.service.NotificationService;
 import com.cand.backend.service.UserService;
 
@@ -27,12 +28,14 @@ public class NotificationController {
     @Autowired
     private UserService userService;
 
-    // API dành cho Cán bộ / Đoàn viên để phát hành thông báo
+    // API dành cho Cán bộ / Đoàn viên để phát hành thông báo cho đơn vị
     @PostMapping("/publish")
     public ResponseEntity<?> publishNotification(@RequestBody Notification notification) {
-        // Trong thực tế, nguoiGuiId nên được trích xuất từ JWT Security Context
-        // UUID currentUser = SecurityUtils.getCurrentUserId();
-        // request.setNguoiGuiId(currentUser);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = ((CustomUserDetails) principal).getUsername();
+        User user = userService.getUserByEmail(email);
+        notification.setSenderId(user.getId());
+
         Notification newNotification = notificationService.publishNotification(notification);
         return ResponseEntity.ok(newNotification);
     }
@@ -40,10 +43,16 @@ public class NotificationController {
     // API dành cho Đoàn viên để lấy hòm thư thông báo của mình
     @GetMapping("/inbox")
     public ResponseEntity<?> getInbox() {
-        String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        try {
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String email = ((CustomUserDetails) principal).getUsername();
+            User user = userService.getUserByEmail(email);
+            return ResponseEntity.ok(notificationService.getInbox(user.getId()));
+        } catch (Exception e) {
+            System.out.println("Error fetching inbox: " + e.getMessage());
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
 
-        User user = userService.getUserByEmail(email);
-        return ResponseEntity.ok(notificationService.getInbox(user.getId()));
     }
 
     // API để đánh dấu thông báo đã đọc
