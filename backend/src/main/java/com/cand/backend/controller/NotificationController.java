@@ -40,19 +40,22 @@ public class NotificationController {
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             String email = ((CustomUserDetails) principal).getUsername();
             User sender = userService.getUserByEmail(email);
+            Long senderUnitId = sender.getUnit().getId();
 
+            // Nếu gửi nội bộ, recipientUnitId sẽ là đơn vị của người gửi
             // Tạo đối tượng notification từ request
             Notification notification = new Notification();
             notification.setTitle(request.getTitle());
             notification.setContent(request.getContent());
             notification.setPriority(request.getPriority());
             notification.setSenderId(sender.getId());
-            notification.setRecipientUnitId(request.getRecipientUnitId());
+            notification.setRecipientUnitId(senderUnitId);
 
-            // Gửi thông báo với loại người nhận được chỉ định
+            // Gửi thông báo với lựa chọn gửi nội bộ và danh sách đơn vị cấp dưới được chọn
             Notification newNotification = notificationService.publishNotificationWithRecipients(
                     notification,
-                    request.getRecipientType());
+                    request.isSendInternal(),
+                    request.getSelectedSubordinateUnitIds());
 
             return ResponseEntity.ok(newNotification);
         } catch (Exception e) {

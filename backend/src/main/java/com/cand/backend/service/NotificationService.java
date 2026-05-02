@@ -1,7 +1,9 @@
 package com.cand.backend.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.cand.backend.entity.Notification;
 import com.cand.backend.entity.Notification_User;
-import com.cand.backend.enums.NotificationRecipientType;
+// import com.cand.backend.enums.NotificationRecipientType;
 import com.cand.backend.repository.NotificationRepository;
 import com.cand.backend.repository.Notification_UserRepository;
 import com.cand.backend.repository.UserRepository;
@@ -60,21 +62,43 @@ public class NotificationService {
     }
 
     /**
-     * Gửi thông báo với linh hoạt lựa chọn loại người nhận
-     * 
-     * @param notification  Đối tượng thông báo
-     * @param recipientType Loại người nhận (SAME_UNIT hoặc SUBORDINATE_UNITS)
+     * Gửi thông báo với lựa chọn: gửi nội bộ và/hoặc gửi tới các đơn vị cấp dưới
+     * được chọn
+     *
+     * @param notification               Đối tượng thông báo
+     * @param sendInternal               Nếu true -> gửi tới tất cả user trong
+     *                                   recipientUnitId
+     * @param subordinateUnitIdsSelected Danh sách ID các đơn vị cấp dưới do client
+     *                                   chọn
      */
     @Transactional
-    public Notification publishNotificationWithRecipients(Notification notification,
-            NotificationRecipientType recipientType) {
+    public Notification publishNotificationWithRecipients(Notification notification, boolean sendInternal,
+            List<Long> subordinateUnitIdsSelected) {
         Notification newNotification = notificationRepository.save(notification);
 
-        // Lấy danh sách ID người dùng dựa trên loại người nhận
-        List<UUID> recipientIds = getRecipientUserIds(notification.getRecipientUnitId(), recipientType);
+        Long baseUnitId = notification.getRecipientUnitId();
+
+        // Gom danh sách user ids từ các nguồn theo request
+        List<UUID> recipientIds = new ArrayList<>();
+
+        if (sendInternal && baseUnitId != null) {
+            recipientIds.addAll(userRepository.findUserIdsByUnitId(baseUnitId));
+        }
+
+        if (subordinateUnitIdsSelected != null) {
+            for (Long subUnitId : subordinateUnitIdsSelected) {
+                if (subUnitId != null) {
+                    recipientIds.addAll(userRepository.findUserIdsByUnitId(subUnitId));
+                }
+            }
+        }
+
+        // Loại bỏ nulls và trùng lặp
+        List<UUID> distinctRecipientIds = recipientIds.stream().filter(Objects::nonNull).distinct()
+                .collect(Collectors.toList());
 
         // Tạo danh sách Notification_User
-        List<Notification_User> notificationUsers = recipientIds.stream()
+        List<Notification_User> notificationUsers = distinctRecipientIds.stream()
                 .map(userId -> {
                     Notification_User nu = new Notification_User();
                     nu.setNotificationId(newNotification.getId());
@@ -87,32 +111,11 @@ public class NotificationService {
         notificationUserRepository.saveAll(notificationUsers);
 
         // TODO: Gọi Firebase để tạo Push Notification
-        // pushNotificationService.sendPushNotification(recipientIds,
+        // pushNotificationService.sendPushNotification(distinctRecipientIds,
         // newNotification.getTitle(),
         // newNotification.getContent());
 
         return newNotification;
-    }
-
-    /**
-     * Lấy danh sách ID người dùng theo loại người nhận
-     */
-    private List<UUID> getRecipientUserIds(Long unitId, NotificationRecipientType recipientType) {
-        if (recipientType == NotificationRecipientType.SAME_UNIT) {
-            // Gửi tới tất cả user trong cùng đơn vị
-            return userRepository.findUserIdsByUnitId(unitId);
-        } else if (recipientType == NotificationRecipientType.SUBORDINATE_UNITS) {
-            // Gửi tới tất cả user trong các đơn vị cấp dưới
-            return userRepository.findUserIdsInSubordinateUnits(unitId);
-        } else if (recipientType == NotificationRecipientType.BOTH) {
-            // Gửi tới cả 2 nhóm: cùng đơn vị và cấp dưới (loại bỏ duplicates)
-            List<UUID> sameUnitUsers = userRepository.findUserIdsByUnitId(unitId);
-            List<UUID> subordinateUsers = userRepository.findUserIdsInSubordinateUnits(unitId);
-
-            sameUnitUsers.addAll(subordinateUsers);
-            return sameUnitUsers.stream().distinct().collect(Collectors.toList());
-        }
-        return List.of();
     }
 
     @Transactional
