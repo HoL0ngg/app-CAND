@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../screens/auth/login_screen.dart';
+import '../screens/auth/otp_screen.dart';
+import '../screens/auth/qr_login_screen.dart';
 import '../screens/main_shell.dart';
 import '../services/auth_state.dart';
 
@@ -10,13 +12,13 @@ GoRouter buildAppRouter(AuthState authState) {
     initialLocation: '/app',
     refreshListenable: authState,
     redirect: (BuildContext context, GoRouterState state) {
-      final bool isOnLogin = state.matchedLocation == '/login';
+      final bool isOnAuth = state.matchedLocation.startsWith('/login');
 
-      if (!authState.isLoggedIn && !isOnLogin) {
+      if (!authState.isLoggedIn && !isOnAuth) {
         return '/login';
       }
 
-      if (authState.isLoggedIn && isOnLogin) {
+      if (authState.isLoggedIn && isOnAuth) {
         return '/app';
       }
 
@@ -27,6 +29,18 @@ GoRouter buildAppRouter(AuthState authState) {
         path: '/login',
         builder: (context, state) {
           return LoginScreen(onLogin: authState.signIn);
+        },
+      ),
+      GoRoute(
+        path: '/login/qr',
+        builder: (context, state) {
+          return const QrLoginScreen();
+        },
+      ),
+      GoRoute(
+        path: '/login/otp',
+        builder: (context, state) {
+          return const OtpScreen();
         },
       ),
       GoRoute(

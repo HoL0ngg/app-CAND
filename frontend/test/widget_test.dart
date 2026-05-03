@@ -13,6 +13,7 @@ void main() {
     await tester.pumpWidget(const MyApp());
     await tester.pumpAndSettle();
 
-    expect(find.text('Dang nhap'), findsOneWidget);
+    expect(find.text('Ứng dụng Quản Lí\nĐoàn Thanh niên CAND'), findsOneWidget);
+    expect(find.text('Đăng nhập'), findsOneWidget);
   });
 }
