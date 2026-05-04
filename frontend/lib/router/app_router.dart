@@ -5,6 +5,7 @@ import '../screens/auth/login_screen.dart';
 import '../screens/auth/otp_screen.dart';
 import '../screens/auth/qr_login_screen.dart';
 import '../screens/main_shell.dart';
+import '../screens/profile_screens.dart';
 import '../services/auth_state.dart';
 
 GoRouter buildAppRouter(AuthState authState) {
@@ -47,6 +48,45 @@ GoRouter buildAppRouter(AuthState authState) {
         path: '/app',
         builder: (context, state) {
           return MainShell(onLogout: authState.signOut);
+        },
+      ),
+      GoRoute(
+        path: '/app/profile',
+        builder: (context, state) {
+          return const ProfileScreen();
+        },
+      ),
+      GoRoute(
+        path: '/app/profile/edit',
+        builder: (context, state) {
+          return const EditProfileScreen();
+        },
+      ),
+      GoRoute(
+        path: '/app/profile/transfer',
+        builder: (context, state) {
+          return const TransferActivityScreen();
+        },
+      ),
+      GoRoute(
+        path: '/app/profile/transfer-history',
+        builder: (context, state) {
+          return const TransferHistoryScreen();
+        },
+      ),
+      GoRoute(
+        path: '/app/profile/transfer-history/detail',
+        builder: (context, state) {
+          return const TransferHistoryDetailScreen();
+        },
+      ),
+      GoRoute(
+        path: '/app/qr',
+        builder: (context, state) {
+          return const AppBottomNavScaffold(
+            currentIndex: 2,
+            child: Center(child: Text('Mã QR - nội dung sẽ được thay sau')),
+          );
         },
       ),
     ],
